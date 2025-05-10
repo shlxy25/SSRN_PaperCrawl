@@ -1,3 +1,13 @@
+## -------------------------
+## Notes--CN Version
+## 使用 selenium 包爬取 SSRN 里面的论文List
+## 在爬取前需提前准备好之前爬取好的 SSRN Category List 文件，已经手动收集 Social Science 全部 Categories 保存在 Github 中的 Data 文件内
+## -------------------------
+## Notes — EN Version
+## Use the selenium package to scrape papers list from SSRN.
+## Before scraping, prepare the previously collected SSRN Category List files, which I have manually collected all social science Categories from SSRN and has stored in the Data folder on GitHub.
+## -------------------------
+
 import pandas as pd
 import time
 from datetime import datetime
@@ -11,26 +21,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from tqdm import tqdm
 
-cookies = {
-    'MXP_TRACKINGID': 'F18B07EE-428C-4C46-AB5303CD87A073B3',
-    'mobileFormat': 'false',
-    'cfid': 'bffcc951-3934-4cc7-a32d-7591e81c0b74',
-    'cftoken': '0',
-    'SITEID': 'en',
-    'perf_dv6Tr4n': '1',
-    'OptanonAlertBoxClosed': '2025-05-06T04:00:18.389Z',
-    'AMCVS_4D6368F454EC41940A4C98A6%40AdobeOrg': '1',
-    'at_check': 'true',
-    'AMCV_4D6368F454EC41940A4C98A6%40AdobeOrg': '-1124106680%7CMCMID%7C46587967469318301363724789803628467401%7CMCAAMLH-1747108823%7C3%7CMCAAMB-1747108823%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1746511223s%7CNONE%7CMCAID%7CNONE%7CvVersion%7C5.2.0%7CMCIDTS%7C20215',
-    '_hjSessionUser_823431': 'eyJpZCI6IjBkMDBjMzZiLTU5MDktNWZiMy1hZGE3LWYwODE4MGJhYzAzMSIsImNyZWF0ZWQiOjE3NDY1MDQwMjM5NzMsImV4aXN0aW5nIjp0cnVlfQ==',
-    '__cf_bm': 'x_VLkn1ww3HSCNaHO69djPnFlyZbmvKrflJ1otlrte0-1746507949-1.0.1.1-gIE2l1XA6qybbNSeHhUs9f4joCCKqMmlK2MuxS6N8DcVL4xxOBm2ULZREm4ZlADSBFuvRR0LB2pwMozNNNpTISPZLjfkCp5F1xAc10jtSI8',
-    '_hjSession_823431': 'eyJpZCI6IjhmNGNjMWZiLTVmYmEtNDNjZC1hNzczLTUxMWU4NDdlYWVkNSIsImMiOjE3NDY1MDc5NTAxNDUsInMiOjEsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=',
-    'OptanonConsent': 'isGpcEnabled=0&datestamp=Tue+May+06+2025+13%3A10%3A05+GMT%2B0800+(%E4%B8%AD%E5%9B%BD%E6%A0%87%E5%87%86%E6%97%B6%E9%97%B4)&version=202411.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&consentId=9f7b8d71-7128-493b-84fd-c210cec8e0e2&interactionCount=1&isAnonUser=1&landingPath=NotLandingPage&groups=1%3A1%2C3%3A1%2C2%3A1%2C4%3A1&intType=1&geolocation=US%3BCA&AwaitingReconsent=false',
-    'mbox': 'PC#90ad07559fd94d7a865a0cb03396cddc.38_0#1809753006|session#78bfeddd761e48c8a450bda84de0f98d#1746509810',
-    's_pers': '%20v8%3D1746508205502%7C1841116205502%3B%20v8_s%3DLess%2520than%25201%2520day%7C1746510005502%3B%20c19%3Dss%253Ahomepage%7C1746510005503%3B%20v68%3D1746508204900%7C1746510005504%3B',
-    's_sess': '%20s_cpc%3D0%3B%20s_sq%3D%3B%20e41%3D1%3B%20s_cc%3Dtrue%3B%20s_ppvl%3Dss%25253Ahomepage%252C14%252C14%252C823%252C853%252C823%252C1512%252C982%252C2%252CP%3B%20s_ppv%3Dss%25253Asubject-network%25253Adecisionscirn%25253Aindex%252C6%252C6%252C823%252C853%252C823%252C1512%252C982%252C2%252CP%3B',
-}
 
+## Remember to get your cURL info from SSRN website and then transform into cookies and headers (May not used except 'user-agent', and just for safety)
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
@@ -63,9 +55,9 @@ output_path = '/Users/samxie/Research/SSRNCrawl/Data/Paper_List.csv'
 df_input = pd.read_csv(input_path)
 write_header = True  
 
-for index, row in tqdm(df_input.iterrows(), total=len(df_input), desc="处理分类", ncols=100):
+for index, row in tqdm(df_input.iterrows(), total=len(df_input), desc="Processing:", ncols=100):
     field, area, category, first_page_url = row['Field'], row['Area'], row['Category'], row['URL']
-    print(f"正在处理分类：{category}")
+    print(f"Processing：{category}")
     page = 1
     stop_category = False
     max_page = float('inf')  
@@ -87,17 +79,17 @@ for index, row in tqdm(df_input.iterrows(), total=len(df_input), desc="处理分
                 time.sleep(2)
 
         if not page_success:
-            print(f"第 {page} 页加载失败超过 3 次，跳过该分类")
+            print(f" {page} failed more then 3 times，skip this subcategory")
             break
 
-        # 提取最大页数（仅第一页）
+        # Get max page from page one
         if page == 1:
             try:
                 max_page_elem = driver.find_element(By.XPATH, '//*[@id="network-papers"]/div[2]/a[5]')
                 max_page = int(max_page_elem.text.strip())
                 print(f"最大页数：{max_page}")
             except:
-                print("未找到最大页数，默认为 1 页")
+                print("Max page not found，set 1 as default")
                 max_page = 1
 
         if page > max_page:
@@ -119,7 +111,7 @@ for index, row in tqdm(df_input.iterrows(), total=len(df_input), desc="处理分
                 title = title_elem.text
                 paper_url = title_elem.get_attribute("href")
 
-                # 抓取时间
+                # Get paper posted time
                 post_time = None
                 time_xpaths = [
                     f'//*[@id="network-papers"]/div[4]/ol/li[{i}]/div/div/div[1]/div[2]/span[2]',
@@ -139,13 +131,13 @@ for index, row in tqdm(df_input.iterrows(), total=len(df_input), desc="处理分
                     except:
                         continue
 
-                # 判断是否为 2020 年
+                # if 2020, stop crawling this subcategory and go next one
                 if post_time and post_time.strip()[-4:] == '2020':
-                    print(f"检测到2020年论文，终止当前分类：{category}")
+                    print(f"Find paper in 2020，skip：{category}")
                     stop_category = True
                     break
 
-                # 判断是否在日期范围内
+                # See whether the post date meet our requirment
                 try:
                     if not post_time:
                         raise ValueError("post_time is None or empty")
@@ -164,11 +156,11 @@ for index, row in tqdm(df_input.iterrows(), total=len(df_input), desc="处理分
                             'PaperURL': paper_url
                         })
                 except Exception as e:
-                    print(f"日期解析失败：{post_time}，错误：{e}，标题：{title}")
+                    print(f"Fail：{post_time}，error：{e}，paper title：{title}")
                     continue
 
             except Exception as e:
-                print(f"提取第{i}条论文失败：{e}")
+                print(f"failed with no.{i} paper this page：{e}")
                 continue
 
         if results_this_page:
@@ -176,9 +168,9 @@ for index, row in tqdm(df_input.iterrows(), total=len(df_input), desc="处理分
             df_page.to_csv(output_path, mode='a', index=False, header=write_header)
             write_header = False 
 
-        print(f"第 {page} 页处理完成并写入文件")
+        print(f"{page} Done and save successfully")
         page += 1
         time.sleep(1)
         
 driver.quit()
-print(f"\n所有任务完成，结果写入：{output_path}")
+print(f"\nAll completed and saved in：{output_path}")
