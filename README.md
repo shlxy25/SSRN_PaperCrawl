@@ -1,4 +1,4 @@
-# SSRN_PaperCrawl
+# SSRN_PaperCrawl - updated 20250510
 
 ### ----------- CN Notes ---------------
 #### 完整的工作流程为：
@@ -15,10 +15,6 @@
       - PaperInfo.json 包含了论文的Title，Abstract和Keywords <br>
       - AuthorInfo.json 包含了作者的信息，其中 PaperList 是作者过往所有paper组成的列表 <br>
    - 注意 SSRNCrawl0510.py 默认使用 crawl4ai 爬取，参考页面：https://docs.crawl4ai.com；若不兼容，请手动改为 request.get <br>
-
-<br>
-<br>
-
 ### ----------- EN Notes ---------------
 #### Workflow Overview
 1. **Manually collect the *sub-categories* within the research area you want to scrape**  
